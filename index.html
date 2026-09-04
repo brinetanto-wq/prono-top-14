@@ -4,13 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pronos Top 14</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- React & Babel -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen">
@@ -26,57 +23,71 @@
         id: "11111111-1111-1111-1111-111111111111",
         home_team: "Aviron Bayonnais",
         away_team: "RC Toulon",
-        kickoff: "2026-09-05T19:05:00+02:00",
-        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8378.png",
-        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8389.png"
+        home_badge: "AB",
+        away_badge: "RCT",
+        home_color: "bg-sky-500 text-white",
+        away_color: "bg-red-700 text-white",
+        kickoff: "2026-09-05T19:05:00+02:00"
       },
       {
         id: "22222222-2222-2222-2222-222222222222",
         home_team: "Castres Olympique",
         away_team: "RC Vannes",
-        kickoff: "2026-09-05T19:05:00+02:00",
-        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8381.png",
-        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/192233.png"
+        home_badge: "CO",
+        away_badge: "RCV",
+        home_color: "bg-blue-800 text-white",
+        away_color: "bg-blue-900 text-blue-200",
+        kickoff: "2026-09-05T19:05:00+02:00"
       },
       {
         id: "33333333-3333-3333-3333-333333333333",
         home_team: "LOU Rugby",
         away_team: "ASM Clermont",
-        kickoff: "2026-09-05T19:05:00+02:00",
-        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8384.png",
-        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8382.png"
+        home_badge: "LOU",
+        away_badge: "ASM",
+        home_color: "bg-red-600 text-white",
+        away_color: "bg-yellow-400 text-slate-900",
+        kickoff: "2026-09-05T19:05:00+02:00"
       },
       {
         id: "44444444-4444-4444-4444-444444444444",
         home_team: "Montpellier HR",
         away_team: "Section Paloise",
-        kickoff: "2026-09-05T19:05:00+02:00",
-        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8385.png",
-        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8386.png"
+        home_badge: "MHR",
+        away_badge: "SP",
+        home_color: "bg-blue-950 text-sky-400 border border-sky-400/30",
+        away_color: "bg-emerald-700 text-white",
+        kickoff: "2026-09-05T19:05:00+02:00"
       },
       {
         id: "55555555-5555-5555-5555-555555555555",
         home_team: "Stade Français Paris",
         away_team: "USA Perpignan",
-        kickoff: "2026-09-05T19:05:00+02:00",
-        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8390.png",
-        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8387.png"
+        home_badge: "SFP",
+        away_badge: "USAP",
+        home_color: "bg-pink-600 text-white",
+        away_color: "bg-amber-400 text-red-700 font-black",
+        kickoff: "2026-09-05T19:05:00+02:00"
       },
       {
         id: "66666666-6666-6666-6666-666666666666",
         home_team: "Union Bordeaux-Bègles",
         away_team: "Racing 92",
-        kickoff: "2026-09-05T21:15:00+02:00",
-        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8380.png",
-        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8388.png"
+        home_badge: "UBB",
+        away_badge: "R92",
+        home_color: "bg-rose-950 text-rose-200 border border-rose-800",
+        away_color: "bg-sky-100 text-sky-900",
+        kickoff: "2026-09-05T21:15:00+02:00"
       },
       {
         id: "77777777-7777-7777-7777-777777777777",
         home_team: "Stade Rochelais",
         away_team: "Stade Toulousain",
-        kickoff: "2026-09-06T21:05:00+02:00",
-        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8391.png",
-        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8392.png"
+        home_badge: "SR",
+        away_badge: "ST",
+        home_color: "bg-amber-400 text-black font-black",
+        away_color: "bg-red-600 text-black font-black",
+        kickoff: "2026-09-06T21:05:00+02:00"
       }
     ];
 
@@ -109,16 +120,25 @@
       const loadMatches = async () => {
         try {
           const { data, error } = await supabase.from("matches").select("*").order("kickoff", { ascending: true });
-          if (data && data.length > 0) setMatches(data);
+          if (!error && data && data.length > 0) {
+            // Fusionne avec les couleurs/logos locaux pour garantir un affichage parfait
+            const merged = DEFAULT_MATCHES.map(def => {
+              const remote = data.find(d => d.id === def.id || d.home_team === def.home_team);
+              return remote ? { ...def, ...remote } : def;
+            });
+            setMatches(merged);
+          } else {
+            setMatches(DEFAULT_MATCHES);
+          }
         } catch (e) {
-          console.error(e);
+          setMatches(DEFAULT_MATCHES);
         }
       };
 
       const loadPredictions = async () => {
         if (!pseudo.trim()) return;
         try {
-          const { data, error } = await supabase.from("predictions").select("*").eq("pseudo", pseudo.trim());
+          const { data } = await supabase.from("predictions").select("*").eq("pseudo", pseudo.trim());
           if (data) {
             const map = {};
             data.forEach(p => { 
@@ -133,7 +153,7 @@
 
       const loadLeaderboard = async () => {
         try {
-          const { data, error } = await supabase.from("predictions").select("pseudo, points_earned");
+          const { data } = await supabase.from("predictions").select("pseudo, points_earned");
           if (data) {
             const scores = {};
             data.forEach(r => { 
@@ -194,7 +214,6 @@
           .upsert(toInsert, { onConflict: "pseudo,match_id" });
 
         if (error) {
-          console.error("Supabase Error:", error);
           setMsg(`Erreur : ${error.message || "écriture refusée"}`);
         } else { 
           setMsg("✅ Pronostics enregistrés avec succès !"); 
@@ -231,6 +250,7 @@
 
       return (
         <div className="max-w-2xl mx-auto px-4 py-6">
+          {/* Header */}
           <header className="bg-emerald-800 rounded-2xl p-5 mb-6 text-center shadow-lg border border-emerald-700">
             <h1 className="text-2xl font-black tracking-tight text-white">🏉 PRONOS TOP 14</h1>
             <p className="text-emerald-100 text-sm mt-1">1ère Journée · 5 pts score exact, 3 pts vainqueur</p>
@@ -246,6 +266,7 @@
             </div>
           </header>
 
+          {/* Navigation */}
           <div className="flex bg-slate-900 p-1 rounded-xl mb-6 border border-slate-800">
             <button onClick={() => setTab("pronos")} className={`flex-1 py-2 text-sm font-semibold rounded-lg transition ${tab === 'pronos' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}>Matchs</button>
             <button onClick={() => setTab("leaderboard")} className={`flex-1 py-2 text-sm font-semibold rounded-lg transition ${tab === 'leaderboard' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}>Classement</button>
@@ -254,6 +275,7 @@
 
           {msg && <div className="mb-4 p-3 bg-slate-800 text-emerald-300 border border-emerald-500/30 rounded-xl text-center text-sm font-medium">{msg}</div>}
 
+          {/* Onglet Pronos */}
           {tab === "pronos" && (
             <div>
               <div className="space-y-4">
@@ -267,18 +289,15 @@
                       </div>
                       
                       <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-3">
+                        {/* Club Domicile */}
                         <div className="flex items-center justify-end gap-2 text-right">
                           <span className="text-xs sm:text-sm font-bold leading-tight">{m.home_team}</span>
-                          {m.home_logo && (
-                            <img 
-                              src={m.home_logo} 
-                              alt="" 
-                              referrerPolicy="no-referrer"
-                              className="w-8 h-8 object-contain shrink-0" 
-                            />
-                          )}
+                          <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black shrink-0 ${m.home_color}`}>
+                            {m.home_badge}
+                          </span>
                         </div>
 
+                        {/* Champs Scores */}
                         <div className="flex items-center gap-1.5 sm:gap-2">
                           <input
                             type="text"
@@ -303,15 +322,11 @@
                           />
                         </div>
 
+                        {/* Club Extérieur */}
                         <div className="flex items-center justify-start gap-2 text-left">
-                          {m.away_logo && (
-                            <img 
-                              src={m.away_logo} 
-                              alt="" 
-                              referrerPolicy="no-referrer"
-                              className="w-8 h-8 object-contain shrink-0" 
-                            />
-                          )}
+                          <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black shrink-0 ${m.away_color}`}>
+                            {m.away_badge}
+                          </span>
                           <span className="text-xs sm:text-sm font-bold leading-tight">{m.away_team}</span>
                         </div>
                       </div>
@@ -335,6 +350,7 @@
             </div>
           )}
 
+          {/* Classement */}
           {tab === "leaderboard" && (
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4">
               <h2 className="text-lg font-bold mb-4 flex items-center gap-2">🏆 Classement Général</h2>
@@ -356,6 +372,7 @@
             </div>
           )}
 
+          {/* Admin */}
           {tab === "admin" && (
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
               {!isAdmin ? (
@@ -398,7 +415,7 @@
                           defaultValue={m.away_score ?? ""} 
                           placeholder="0" 
                           maxLength={3} 
-                          className="w-12 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" 
+                          className="w-12 h-8 text-center bg-slate-950 border border-slate-700 rounded text-white font-bold" 
                         />
                         <button
                           onClick={() => {
