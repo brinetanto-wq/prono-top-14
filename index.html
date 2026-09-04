@@ -4,10 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pronos Top 14</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & Babel -->
   <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen">
@@ -19,13 +22,62 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const DEFAULT_MATCHES = [
-      { id: "11111111-1111-1111-1111-111111111111", home_team: "Aviron Bayonnais", away_team: "RC Toulon", kickoff: "2026-09-05T19:05:00+02:00", home_logo: "https://upload.wikimedia.org/wikipedia/fr/4/4c/Logo_Aviron_Bayonnais_rugby_pro.svg", away_logo: "https://upload.wikimedia.org/wikipedia/fr/5/52/Logo_RC_Toulon.svg" },
-      { id: "22222222-2222-2222-2222-222222222222", home_team: "Castres Olympique", away_team: "RC Vannes", kickoff: "2026-09-05T19:05:00+02:00", home_logo: "https://upload.wikimedia.org/wikipedia/fr/2/23/Logo_Castres_Olympique_2016.svg", away_logo: "https://upload.wikimedia.org/wikipedia/fr/7/74/Logo_RC_Vannes_2024.svg" },
-      { id: "33333333-3333-3333-3333-333333333333", home_team: "LOU Rugby", away_team: "ASM Clermont", kickoff: "2026-09-05T19:05:00+02:00", home_logo: "https://upload.wikimedia.org/wikipedia/fr/3/30/LOU_Rugby_logo_2017.svg", away_logo: "https://upload.wikimedia.org/wikipedia/fr/9/91/Logo_ASM_Clermont_Auvergne.svg" },
-      { id: "44444444-4444-4444-4444-444444444444", home_team: "Montpellier HR", away_team: "Section Paloise", kickoff: "2026-09-05T19:05:00+02:00", home_logo: "https://upload.wikimedia.org/wikipedia/fr/9/9e/Montpellier_H%C3%A9rault_Rugby_%28logo%29.svg", away_logo: "https://upload.wikimedia.org/wikipedia/fr/6/6f/Logo_Section_Paloise.svg" },
-      { id: "55555555-5555-5555-5555-555555555555", home_team: "Stade Français Paris", away_team: "USA Perpignan", kickoff: "2026-09-05T19:05:00+02:00", home_logo: "https://upload.wikimedia.org/wikipedia/fr/7/7c/Logo_Stade_Fran%C3%A7ais_Paris_2019.svg", away_logo: "https://upload.wikimedia.org/wikipedia/fr/a/af/Logo_USA_Perpignan.svg" },
-      { id: "66666666-6666-6666-6666-666666666666", home_team: "Union Bordeaux-Bègles", away_team: "Racing 92", kickoff: "2026-09-05T21:15:00+02:00", home_logo: "https://upload.wikimedia.org/wikipedia/fr/f/f6/Logo_Union_Bordeaux-B%C3%A8gles_2018.svg", away_logo: "https://upload.wikimedia.org/wikipedia/fr/d/d1/Logo_Racing_92_2020.svg" },
-      { id: "77777777-7777-7777-7777-777777777777", home_team: "Stade Rochelais", away_team: "Stade Toulousain", kickoff: "2026-09-06T21:05:00+02:00", home_logo: "https://upload.wikimedia.org/wikipedia/fr/b/b3/Logo_Stade_Rochelais_2016.svg", away_logo: "https://upload.wikimedia.org/wikipedia/fr/2/23/Logo_Stade_Toulousain_2019.svg" }
+      {
+        id: "11111111-1111-1111-1111-111111111111",
+        home_team: "Aviron Bayonnais",
+        away_team: "RC Toulon",
+        kickoff: "2026-09-05T19:05:00+02:00",
+        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8378.png",
+        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8389.png"
+      },
+      {
+        id: "22222222-2222-2222-2222-222222222222",
+        home_team: "Castres Olympique",
+        away_team: "RC Vannes",
+        kickoff: "2026-09-05T19:05:00+02:00",
+        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8381.png",
+        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/192233.png"
+      },
+      {
+        id: "33333333-3333-3333-3333-333333333333",
+        home_team: "LOU Rugby",
+        away_team: "ASM Clermont",
+        kickoff: "2026-09-05T19:05:00+02:00",
+        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8384.png",
+        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8382.png"
+      },
+      {
+        id: "44444444-4444-4444-4444-444444444444",
+        home_team: "Montpellier HR",
+        away_team: "Section Paloise",
+        kickoff: "2026-09-05T19:05:00+02:00",
+        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8385.png",
+        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8386.png"
+      },
+      {
+        id: "55555555-5555-5555-5555-555555555555",
+        home_team: "Stade Français Paris",
+        away_team: "USA Perpignan",
+        kickoff: "2026-09-05T19:05:00+02:00",
+        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8390.png",
+        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8387.png"
+      },
+      {
+        id: "66666666-6666-6666-6666-666666666666",
+        home_team: "Union Bordeaux-Bègles",
+        away_team: "Racing 92",
+        kickoff: "2026-09-05T21:15:00+02:00",
+        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8380.png",
+        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8388.png"
+      },
+      {
+        id: "77777777-7777-7777-7777-777777777777",
+        home_team: "Stade Rochelais",
+        away_team: "Stade Toulousain",
+        kickoff: "2026-09-06T21:05:00+02:00",
+        home_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8391.png",
+        away_logo: "https://images.fotmob.com/image_resources/logo/teamlogo/rugby/8392.png"
+      }
     ];
 
     function formatMatchTime(iso) {
@@ -69,7 +121,9 @@
           const { data } = await supabase.from("predictions").select("*").eq("pseudo", pseudo.trim());
           if (data) {
             const map = {};
-            data.forEach(p => { map[p.match_id] = { home: p.home_score, away: p.away_score, points: p.points_earned }; });
+            data.forEach(p => { 
+              map[p.match_id] = { home: p.home_score, away: p.away_score, points: p.points_earned }; 
+            });
             setPredictions(map);
           }
         } catch (e) {
@@ -82,8 +136,12 @@
           const { data } = await supabase.from("predictions").select("pseudo, points_earned");
           if (data) {
             const scores = {};
-            data.forEach(r => { scores[r.pseudo] = (scores[r.pseudo] || 0) + (r.points_earned || 0); });
-            const list = Object.keys(scores).map(k => ({ pseudo: k, total: scores[k] })).sort((a,b) => b.total - a.total);
+            data.forEach(r => { 
+              scores[r.pseudo] = (scores[r.pseudo] || 0) + (r.points_earned || 0); 
+            });
+            const list = Object.keys(scores)
+              .map(k => ({ pseudo: k, total: scores[k] }))
+              .sort((a, b) => b.total - a.total);
             setLeaderboard(list);
           }
         } catch (e) {
@@ -91,8 +149,14 @@
         }
       };
 
-      React.useEffect(() => { loadMatches(); loadLeaderboard(); }, []);
-      React.useEffect(() => { loadPredictions(); }, [pseudo]);
+      React.useEffect(() => { 
+        loadMatches(); 
+        loadLeaderboard(); 
+      }, []);
+
+      React.useEffect(() => { 
+        loadPredictions(); 
+      }, [pseudo]);
 
       // Limitation stricte à 3 chiffres
       const handlePronoChange = (matchId, side, val) => {
@@ -104,7 +168,10 @@
       };
 
       const submitPronos = async () => {
-        if (!pseudo.trim()) { setMsg("⚠️ Renseigne ton pseudo en haut !"); return; }
+        if (!pseudo.trim()) { 
+          setMsg("⚠️ Renseigne ton pseudo en haut !"); 
+          return; 
+        }
         const toInsert = [];
         for (const m of matches) {
           const pr = predictions[m.id];
@@ -117,10 +184,17 @@
             });
           }
         }
-        if (toInsert.length === 0) { setMsg("⚠️ Saisis au moins un pronostic."); return; }
+        if (toInsert.length === 0) { 
+          setMsg("⚠️ Saisis au moins un pronostic complet."); 
+          return; 
+        }
         const { error } = await supabase.from("predictions").upsert(toInsert, { onConflict: "pseudo,match_id" });
-        if (error) setMsg("Erreur lors de l'enregistrement.");
-        else { setMsg("✅ Pronostics enregistrés !"); loadLeaderboard(); }
+        if (error) {
+          setMsg("Erreur lors de l'enregistrement.");
+        } else { 
+          setMsg("✅ Pronostics enregistrés avec succès !"); 
+          loadLeaderboard(); 
+        }
       };
 
       const saveRealScore = async (matchId, hScore, aScore) => {
@@ -135,7 +209,13 @@
           for (const pr of userPronos) {
             let pts = 0;
             if (pr.home_score === h && pr.away_score === a) pts = 5;
-            else if ((pr.home_score > pr.away_score && h > a) || (pr.home_score < pr.away_score && h < a) || (pr.home_score === pr.away_score && h === a)) pts = 3;
+            else if (
+              (pr.home_score > pr.away_score && h > a) || 
+              (pr.home_score < pr.away_score && h < a) || 
+              (pr.home_score === pr.away_score && h === a)
+            ) {
+              pts = 3;
+            }
             await supabase.from("predictions").update({ points_earned: pts }).eq("id", pr.id);
           }
         }
@@ -145,9 +225,10 @@
 
       return (
         <div className="max-w-2xl mx-auto px-4 py-6">
+          {/* En-tête */}
           <header className="bg-emerald-800 rounded-2xl p-5 mb-6 text-center shadow-lg border border-emerald-700">
             <h1 className="text-2xl font-black tracking-tight text-white">🏉 PRONOS TOP 14</h1>
-            <p className="text-emerald-100 text-sm mt-1">1ère Journée · Barème : 5 pts score exact, 3 pts vainqueur</p>
+            <p className="text-emerald-100 text-sm mt-1">1ère Journée · 5 pts score exact, 3 pts vainqueur</p>
             
             <div className="mt-4 max-w-xs mx-auto">
               <input
@@ -160,6 +241,7 @@
             </div>
           </header>
 
+          {/* Navigation */}
           <div className="flex bg-slate-900 p-1 rounded-xl mb-6 border border-slate-800">
             <button onClick={() => setTab("pronos")} className={`flex-1 py-2 text-sm font-semibold rounded-lg transition ${tab === 'pronos' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}>Matchs</button>
             <button onClick={() => setTab("leaderboard")} className={`flex-1 py-2 text-sm font-semibold rounded-lg transition ${tab === 'leaderboard' ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-white'}`}>Classement</button>
@@ -168,66 +250,80 @@
 
           {msg && <div className="mb-4 p-3 bg-slate-800 text-emerald-300 border border-emerald-500/30 rounded-xl text-center text-sm font-medium">{msg}</div>}
 
+          {/* Onglet Matchs */}
           {tab === "pronos" && (
             <div>
               <div className="space-y-4">
-                {matches.length === 0 ? (
-                  <p className="text-center text-slate-500 py-10">Chargement des rencontres...</p>
-                ) : (
-                  matches.map(m => {
-                    const pr = predictions[m.id] || {};
-                    return (
-                      <div key={m.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-sm">
-                        <div className="flex justify-between items-center text-xs text-slate-400 mb-3 pb-2 border-b border-slate-800/80">
-                          <span className="font-semibold text-slate-300 capitalize">{formatMatchTime(m.kickoff)}</span>
-                          {m.is_finished && <span className="bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Terminé : {m.home_score} - {m.away_score}</span>}
-                        </div>
-                        
-                        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-                          <div className="flex items-center justify-end gap-2.5 text-right">
-                            <span className="text-sm font-bold leading-tight">{m.home_team}</span>
-                            {m.home_logo && <img src={m.home_logo} alt="" className="w-8 h-8 object-contain shrink-0" />}
-                          </div>
-
-                          <div className="flex items-center gap-2">
-                            <input
-                              type="text"
-                              inputMode="numeric"
-                              maxLength={3}
-                              placeholder="-"
-                              value={pr.home ?? ""}
-                              disabled={m.is_finished}
-                              onChange={(e) => handlePronoChange(m.id, "home", e.target.value)}
-                              className="w-12 h-11 text-center bg-slate-950 border border-slate-700 rounded-xl font-bold text-lg text-white disabled:opacity-50 focus:border-emerald-500 focus:outline-none"
-                            />
-                            <span className="text-slate-500 font-bold">:</span>
-                            <input
-                              type="text"
-                              inputMode="numeric"
-                              maxLength={3}
-                              placeholder="-"
-                              value={pr.away ?? ""}
-                              disabled={m.is_finished}
-                              onChange={(e) => handlePronoChange(m.id, "away", e.target.value)}
-                              className="w-12 h-11 text-center bg-slate-950 border border-slate-700 rounded-xl font-bold text-lg text-white disabled:opacity-50 focus:border-emerald-500 focus:outline-none"
-                            />
-                          </div>
-
-                          <div className="flex items-center justify-start gap-2.5 text-left">
-                            {m.away_logo && <img src={m.away_logo} alt="" className="w-8 h-8 object-contain shrink-0" />}
-                            <span className="text-sm font-bold leading-tight">{m.away_team}</span>
-                          </div>
-                        </div>
-
-                        {pr.points !== undefined && m.is_finished && (
-                          <div className="mt-2 text-center text-xs font-semibold text-emerald-400">
-                            Gain sur ce match : +{pr.points} point{pr.points > 1 ? 's' : ''}
-                          </div>
-                        )}
+                {matches.map(m => {
+                  const pr = predictions[m.id] || {};
+                  return (
+                    <div key={m.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-sm">
+                      <div className="flex justify-between items-center text-xs text-slate-400 mb-3 pb-2 border-b border-slate-800/80">
+                        <span className="font-semibold text-slate-300 capitalize">{formatMatchTime(m.kickoff)}</span>
+                        {m.is_finished && <span className="bg-emerald-900/60 text-emerald-300 px-2.5 py-0.5 rounded-full font-bold">Terminé : {m.home_score} - {m.away_score}</span>}
                       </div>
-                    );
-                  })
-                )}
+                      
+                      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 sm:gap-3">
+                        {/* Club Domicile */}
+                        <div className="flex items-center justify-end gap-2 text-right">
+                          <span className="text-xs sm:text-sm font-bold leading-tight">{m.home_team}</span>
+                          {m.home_logo && (
+                            <img 
+                              src={m.home_logo} 
+                              alt="" 
+                              referrerPolicy="no-referrer"
+                              className="w-8 h-8 object-contain shrink-0" 
+                            />
+                          )}
+                        </div>
+
+                        {/* Scores */}
+                        <div className="flex items-center gap-1.5 sm:gap-2">
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={3}
+                            placeholder="-"
+                            value={pr.home ?? ""}
+                            disabled={m.is_finished}
+                            onChange={(e) => handlePronoChange(m.id, "home", e.target.value)}
+                            className="w-12 sm:w-14 h-11 text-center bg-slate-950 border border-slate-700 rounded-xl font-bold text-lg text-white disabled:opacity-50 focus:border-emerald-500 focus:outline-none"
+                          />
+                          <span className="text-slate-500 font-bold">:</span>
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={3}
+                            placeholder="-"
+                            value={pr.away ?? ""}
+                            disabled={m.is_finished}
+                            onChange={(e) => handlePronoChange(m.id, "away", e.target.value)}
+                            className="w-12 sm:w-14 h-11 text-center bg-slate-950 border border-slate-700 rounded-xl font-bold text-lg text-white disabled:opacity-50 focus:border-emerald-500 focus:outline-none"
+                          />
+                        </div>
+
+                        {/* Club Extérieur */}
+                        <div className="flex items-center justify-start gap-2 text-left">
+                          {m.away_logo && (
+                            <img 
+                              src={m.away_logo} 
+                              alt="" 
+                              referrerPolicy="no-referrer"
+                              className="w-8 h-8 object-contain shrink-0" 
+                            />
+                          )}
+                          <span className="text-xs sm:text-sm font-bold leading-tight">{m.away_team}</span>
+                        </div>
+                      </div>
+
+                      {pr.points !== undefined && m.is_finished && (
+                        <div className="mt-2 text-center text-xs font-semibold text-emerald-400">
+                          Gain sur ce match : +{pr.points} point{pr.points > 1 ? 's' : ''}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
 
               <button
@@ -239,6 +335,7 @@
             </div>
           )}
 
+          {/* Onglet Classement */}
           {tab === "leaderboard" && (
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4">
               <h2 className="text-lg font-bold mb-4 flex items-center gap-2">🏆 Classement Général</h2>
@@ -260,11 +357,12 @@
             </div>
           )}
 
+          {/* Onglet Admin */}
           {tab === "admin" && (
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
               {!isAdmin ? (
                 <div className="space-y-3">
-                  <p className="text-sm text-slate-300 font-medium">Mot de passe pour saisir les scores officiels :</p>
+                  <p className="text-sm text-slate-300 font-medium">Mot de passe pour saisir les scores réels :</p>
                   <input
                     type="password"
                     placeholder="Mot de passe (top14)"
@@ -273,7 +371,10 @@
                     className="w-full px-3 py-2 bg-slate-950 border border-slate-700 rounded-xl text-white"
                   />
                   <button
-                    onClick={() => { if (adminPass === "top14") setIsAdmin(true); else alert("Mot de passe incorrect"); }}
+                    onClick={() => { 
+                      if (adminPass === "top14") setIsAdmin(true); 
+                      else alert("Mot de passe incorrect"); 
+                    }}
                     className="w-full py-2 bg-slate-800 hover:bg-slate-700 font-bold rounded-xl"
                   >
                     Valider
@@ -286,9 +387,21 @@
                     <div key={m.id} className="p-3 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between text-xs">
                       <span className="font-medium text-slate-300">{m.home_team} - {m.away_team}</span>
                       <div className="flex gap-2 items-center">
-                        <input id={`admin-h-${m.id}`} defaultValue={m.home_score ?? ""} placeholder="0" maxLength={3} className="w-11 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" />
+                        <input 
+                          id={`admin-h-${m.id}`} 
+                          defaultValue={m.home_score ?? ""} 
+                          placeholder="0" 
+                          maxLength={3} 
+                          className="w-12 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" 
+                        />
                         <span>:</span>
-                        <input id={`admin-a-${m.id}`} defaultValue={m.away_score ?? ""} placeholder="0" maxLength={3} className="w-11 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" />
+                        <input 
+                          id={`admin-a-${m.id}`} 
+                          defaultValue={m.away_score ?? ""} 
+                          placeholder="0" 
+                          maxLength={3} 
+                          className="w-12 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" 
+                        />
                         <button
                           onClick={() => {
                             const h = document.getElementById(`admin-h-${m.id}`).value;
