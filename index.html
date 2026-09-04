@@ -94,8 +94,9 @@
       React.useEffect(() => { loadMatches(); loadLeaderboard(); }, []);
       React.useEffect(() => { loadPredictions(); }, [pseudo]);
 
+      // Limitation stricte à 3 chiffres
       const handlePronoChange = (matchId, side, val) => {
-        const num = val.replace(/[^0-9]/g, "");
+        const num = val.replace(/[^0-9]/g, "").slice(0, 3);
         setPredictions(prev => ({
           ...prev,
           [matchId]: { ...prev[matchId], [side]: num }
@@ -119,7 +120,7 @@
         if (toInsert.length === 0) { setMsg("⚠️ Saisis au moins un pronostic."); return; }
         const { error } = await supabase.from("predictions").upsert(toInsert, { onConflict: "pseudo,match_id" });
         if (error) setMsg("Erreur lors de l'enregistrement.");
-        else { setMsg(" Pronostics enregistrés !"); loadLeaderboard(); }
+        else { setMsg("✅ Pronostics enregistrés !"); loadLeaderboard(); }
       };
 
       const saveRealScore = async (matchId, hScore, aScore) => {
@@ -170,57 +171,63 @@
           {tab === "pronos" && (
             <div>
               <div className="space-y-4">
-                {matches.map(m => {
-                  const pr = predictions[m.id] || {};
-                  return (
-                    <div key={m.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-sm">
-                      <div className="flex justify-between items-center text-xs text-slate-400 mb-3 pb-2 border-b border-slate-800/80">
-                        <span className="font-semibold text-slate-300 capitalize">{formatMatchTime(m.kickoff)}</span>
-                        {m.is_finished && <span className="bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Terminé : {m.home_score} - {m.away_score}</span>}
+                {matches.length === 0 ? (
+                  <p className="text-center text-slate-500 py-10">Chargement des rencontres...</p>
+                ) : (
+                  matches.map(m => {
+                    const pr = predictions[m.id] || {};
+                    return (
+                      <div key={m.id} className="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-sm">
+                        <div className="flex justify-between items-center text-xs text-slate-400 mb-3 pb-2 border-b border-slate-800/80">
+                          <span className="font-semibold text-slate-300 capitalize">{formatMatchTime(m.kickoff)}</span>
+                          {m.is_finished && <span className="bg-emerald-900/60 text-emerald-300 px-2 py-0.5 rounded-full font-bold">Terminé : {m.home_score} - {m.away_score}</span>}
+                        </div>
+                        
+                        <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+                          <div className="flex items-center justify-end gap-2.5 text-right">
+                            <span className="text-sm font-bold leading-tight">{m.home_team}</span>
+                            {m.home_logo && <img src={m.home_logo} alt="" className="w-8 h-8 object-contain shrink-0" />}
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              maxLength={3}
+                              placeholder="-"
+                              value={pr.home ?? ""}
+                              disabled={m.is_finished}
+                              onChange={(e) => handlePronoChange(m.id, "home", e.target.value)}
+                              className="w-12 h-11 text-center bg-slate-950 border border-slate-700 rounded-xl font-bold text-lg text-white disabled:opacity-50 focus:border-emerald-500 focus:outline-none"
+                            />
+                            <span className="text-slate-500 font-bold">:</span>
+                            <input
+                              type="text"
+                              inputMode="numeric"
+                              maxLength={3}
+                              placeholder="-"
+                              value={pr.away ?? ""}
+                              disabled={m.is_finished}
+                              onChange={(e) => handlePronoChange(m.id, "away", e.target.value)}
+                              className="w-12 h-11 text-center bg-slate-950 border border-slate-700 rounded-xl font-bold text-lg text-white disabled:opacity-50 focus:border-emerald-500 focus:outline-none"
+                            />
+                          </div>
+
+                          <div className="flex items-center justify-start gap-2.5 text-left">
+                            {m.away_logo && <img src={m.away_logo} alt="" className="w-8 h-8 object-contain shrink-0" />}
+                            <span className="text-sm font-bold leading-tight">{m.away_team}</span>
+                          </div>
+                        </div>
+
+                        {pr.points !== undefined && m.is_finished && (
+                          <div className="mt-2 text-center text-xs font-semibold text-emerald-400">
+                            Gain sur ce match : +{pr.points} point{pr.points > 1 ? 's' : ''}
+                          </div>
+                        )}
                       </div>
-                      
-                      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-3">
-                        <div className="flex items-center justify-end gap-2.5 text-right">
-                          <span className="text-sm font-bold leading-tight">{m.home_team}</span>
-                          {m.home_logo && <img src={m.home_logo} alt="" className="w-8 h-8 object-contain shrink-0" />}
-                        </div>
-
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            placeholder="-"
-                            value={pr.home ?? ""}
-                            disabled={m.is_finished}
-                            onChange={(e) => handlePronoChange(m.id, "home", e.target.value)}
-                            className="w-11 h-11 text-center bg-slate-950 border border-slate-700 rounded-xl font-bold text-lg text-white disabled:opacity-50 focus:border-emerald-500 focus:outline-none"
-                          />
-                          <span className="text-slate-500 font-bold">:</span>
-                          <input
-                            type="text"
-                            inputMode="numeric"
-                            placeholder="-"
-                            value={pr.away ?? ""}
-                            disabled={m.is_finished}
-                            onChange={(e) => handlePronoChange(m.id, "away", e.target.value)}
-                            className="w-11 h-11 text-center bg-slate-950 border border-slate-700 rounded-xl font-bold text-lg text-white disabled:opacity-50 focus:border-emerald-500 focus:outline-none"
-                          />
-                        </div>
-
-                        <div className="flex items-center justify-start gap-2.5 text-left">
-                          {m.away_logo && <img src={m.away_logo} alt="" className="w-8 h-8 object-contain shrink-0" />}
-                          <span className="text-sm font-bold leading-tight">{m.away_team}</span>
-                        </div>
-                      </div>
-
-                      {pr.points !== undefined && m.is_finished && (
-                        <div className="mt-2 text-center text-xs font-semibold text-emerald-400">
-                          Gain sur ce match : +{pr.points} point{pr.points > 1 ? 's' : ''}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                )}
               </div>
 
               <button
@@ -257,7 +264,7 @@
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
               {!isAdmin ? (
                 <div className="space-y-3">
-                  <p className="text-sm text-slate-300 font-medium">Mot de passe pour saisir les scores réels :</p>
+                  <p className="text-sm text-slate-300 font-medium">Mot de passe pour saisir les scores officiels :</p>
                   <input
                     type="password"
                     placeholder="Mot de passe (top14)"
@@ -279,9 +286,9 @@
                     <div key={m.id} className="p-3 bg-slate-950 border border-slate-800 rounded-xl flex items-center justify-between text-xs">
                       <span className="font-medium text-slate-300">{m.home_team} - {m.away_team}</span>
                       <div className="flex gap-2 items-center">
-                        <input id={`admin-h-${m.id}`} defaultValue={m.home_score ?? ""} placeholder="0" className="w-9 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" />
+                        <input id={`admin-h-${m.id}`} defaultValue={m.home_score ?? ""} placeholder="0" maxLength={3} className="w-11 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" />
                         <span>:</span>
-                        <input id={`admin-a-${m.id}`} defaultValue={m.away_score ?? ""} placeholder="0" className="w-9 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" />
+                        <input id={`admin-a-${m.id}`} defaultValue={m.away_score ?? ""} placeholder="0" maxLength={3} className="w-11 h-8 text-center bg-slate-900 border border-slate-700 rounded text-white font-bold" />
                         <button
                           onClick={() => {
                             const h = document.getElementById(`admin-h-${m.id}`).value;
